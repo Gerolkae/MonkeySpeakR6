@@ -145,7 +145,11 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="IniFile.vb" />
+    <None Include="MainEngine.vb" />
     <None Include="MonkeySpeak ChangeLog.txt" />
+    <None Include="PluginServices.vb" />
+    <None Include="smHost.vb" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="BeforeBuild">
