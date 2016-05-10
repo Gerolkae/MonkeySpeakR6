@@ -113,7 +113,7 @@
     <Compile Include="ReflectionHelper.cs" />
     <Compile Include="Trigger.cs" />
     <Compile Include="TriggerHandlerAttribute.cs" />
-    <Compile Include="TriggerList.cs" />
+    <Compile Include="HelpURL.ini" />
     <Compile Include="TriggerReader.cs" />
     <Compile Include="Variable.cs" />
   </ItemGroup>
