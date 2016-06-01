@@ -22,7 +22,7 @@ namespace Monkeyspeak
 
 	[Serializable]
     [CLSCompliant(true)]
-	public class Variable
+	public struct Variable
 	{
 		public static readonly Variable NoValue = new Variable("%none", "", false);
 
@@ -40,7 +40,7 @@ namespace Monkeyspeak
 			}
 		}
 
-        private object value;
+        private object value ;
 
 		public object Value
 		{
@@ -66,6 +66,8 @@ namespace Monkeyspeak
 		{
 			get
 			{
+				if(string.IsNullOrEmpty(name))
+					name = "%none";
 				return name;
 			}
 			internal set
@@ -78,12 +80,12 @@ namespace Monkeyspeak
         // Preset reader.readvariable with default data
         // Needed for Conditions  checking Variables that haven't been defined yet.
         // -Gerolkae
-        private Variable()
+       /* private Variable()
         {
             isConstant = false;
             name = "%none";
             value = null;
-        }
+        }*/
 
 		internal Variable(string Name, object value, bool constant = false)
 		{
@@ -140,6 +142,16 @@ namespace Monkeyspeak
 		public override bool Equals(object obj)
 		{
             return ((Variable)obj).Name.Equals(Name) && ((Variable)obj).Value.Equals(Value);
+		}
+		public override int GetHashCode()
+		{
+			int n = 0;
+			if (value is int)
+			{ 
+				n = int.Parse(value.ToString());
+				return value.ToString().GetHashCode() ^ name.GetHashCode();
+			}
+			return n ^ name.GetHashCode();
 		}
 	}
 }
