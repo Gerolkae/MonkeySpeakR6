@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Monkeyspeak</RootNamespace>
     <AssemblyName>Monkeyspeak</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -40,6 +40,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -125,7 +127,7 @@
     <Compile Include="ReflectionHelper.cs" />
     <Compile Include="Trigger.cs" />
     <Compile Include="TriggerHandlerAttribute.cs" />
-    <Compile Include="HelpURL.ini" />
+    <Compile Include="TriggerList.cs" />
     <Compile Include="TriggerReader.cs" />
     <Compile Include="Variable.cs" />
   </ItemGroup>
@@ -157,12 +159,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="IniFile.vb" />
-    <None Include="MainEngine.vb" />
     <None Include="MonkeySpeak ChangeLog.txt" />
     <None Include="packages.config" />
-    <None Include="PluginServices.vb" />
-    <None Include="smHost.vb" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="BeforeBuild">

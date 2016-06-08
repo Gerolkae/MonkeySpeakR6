@@ -101,7 +101,7 @@ namespace Monkeyspeak
 
 		public override int GetHashCode()
 		{
-			return ((int)this.category * this.id);
+			return ((int)this.category ^ this.id);
 		}
 
 		public override string ToString()
