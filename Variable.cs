@@ -1,8 +1,9 @@
 ﻿using System;
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+[assembly: CLSCompliant(true)]
 namespace Monkeyspeak
 {
 	[Serializable]
@@ -22,7 +23,7 @@ namespace Monkeyspeak
 
 	[Serializable]
     [CLSCompliant(true)]
-	public struct Variable
+	public class Variable
 	{
 		public static readonly Variable NoValue = new Variable("%none", "", false);
 
@@ -66,8 +67,8 @@ namespace Monkeyspeak
 		{
 			get
 			{
-				if(string.IsNullOrEmpty(name))
-					name = "%none";
+				/*if(string.IsNullOrEmpty(name))
+					this.name = "%none";*/
 				return name;
 			}
 			internal set
@@ -80,12 +81,12 @@ namespace Monkeyspeak
         // Preset reader.readvariable with default data
         // Needed for Conditions  checking Variables that haven't been defined yet.
         // -Gerolkae
-       /* private Variable()
+        private Variable()
         {
             isConstant = false;
             name = "%none";
             value = null;
-        }*/
+        }
 
 		internal Variable(string Name, object value, bool constant = false)
 		{
@@ -145,13 +146,11 @@ namespace Monkeyspeak
 		}
 		public override int GetHashCode()
 		{
-			int n = 0;
 			if (value is int)
 			{ 
-				n = int.Parse(value.ToString());
-				return value.ToString().GetHashCode() ^ name.GetHashCode();
+				return (int)value ^ name.GetHashCode();
 			}
-			return n ^ name.GetHashCode();
+			return name.GetHashCode();
 		}
 	}
 }
