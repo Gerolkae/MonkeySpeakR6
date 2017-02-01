@@ -43,7 +43,7 @@ namespace Monkeyspeak
 
         private object value ;
 
-		public object Value
+		 public  object Value
 		{
 			get
 			{
@@ -81,14 +81,20 @@ namespace Monkeyspeak
         // Preset reader.readvariable with default data
         // Needed for Conditions  checking Variables that haven't been defined yet.
         // -Gerolkae
-        private Variable()
+        public Variable()
         {
             isConstant = false;
             name = "%none";
             value = null;
         }
+        internal Variable(string Name, object value)
+        {
+            isConstant = false;
+            name = Name;
+            this.value = value;
+        }
 
-		internal Variable(string Name, object value, bool constant = false)
+        internal Variable(string Name, object value, bool constant = false)
 		{
 			isConstant = constant;
 			name = Name;
@@ -132,13 +138,20 @@ namespace Monkeyspeak
 
 		public static bool operator ==(Variable varA, Variable varB)
 		{
+            if (varA == null  || varB == null)
+            {
+                if(varA != null)
+                    return varA.value == null;
+                if(varB != null)
+                    return varB.value == null;
+            }
 			return varA.Value == varB.Value;
 		}
 
 		public static bool operator !=(Variable varA, Variable varB)
 		{
             return varA.Value != varB.Value;
-		}
+        }
 
 		public override bool Equals(object obj)
 		{
