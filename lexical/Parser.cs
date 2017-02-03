@@ -61,7 +61,7 @@ namespace Monkeyspeak
 								currentTrigger.contents.Enqueue(token.Value);
 								break;
 							case TokenType.Number:
-								double val = double.Parse(token.Value, System.Globalization.NumberStyles.AllowDecimalPoint);
+								double val = double.Parse(token.Value, System.Globalization.NumberStyles.AllowDecimalPoint | System.Globalization.NumberStyles.AllowLeadingSign);
 								currentTrigger.contents.Enqueue(val);
 								break;
 							case TokenType.EOF:
