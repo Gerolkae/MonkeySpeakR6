@@ -9,7 +9,7 @@ using Monkeyspeak.lexical;
 namespace Monkeyspeak
 {
 	[Serializable]
-	public sealed class MonkeyspeakException : Exception
+	public  class MonkeyspeakException : Exception
 	{
 		public MonkeyspeakException() { }
 
@@ -25,7 +25,8 @@ namespace Monkeyspeak
 			: base(info, context) { }
 	}
 
-	public sealed class MonkeyspeakEngine
+    [Serializable]
+    public sealed class MonkeyspeakEngine
 	{
 		private ILexer lexer;
 		private AbstractParser parser;
@@ -87,7 +88,7 @@ namespace Monkeyspeak
 
 			lexer.AddDefinition(new TokenDefinition(
 				TokenType.Number,
-				new Regex(@"[-+]?([0-9]*\.[0-9]+|[0-9]+)", RegexOptions.Compiled)));
+				new Regex(@"[\-\+]?([0-9]*\.[0-9]+|[0-9]+)", RegexOptions.Compiled)));
 
 			lexer.AddDefinition(new TokenDefinition(
 				TokenType.Comment,
@@ -103,6 +104,7 @@ namespace Monkeyspeak
 				new Regex(@"\s+", RegexOptions.Compiled), true));
 		}
 
+        [CLSCompliant(false)]
 		public Options Options
 		{
 			get { return options; }
