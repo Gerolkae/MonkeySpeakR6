@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 
 // Removed by Gerolkae Looking for threads
@@ -12,11 +10,17 @@ namespace Monkeyspeak
     [Serializable]
     public class TriggerReaderException : Exception
     {
-        public TriggerReaderException() { }
+        public TriggerReaderException()
+        {
+        }
 
-        public TriggerReaderException(string message) : base(message) { }
+        public TriggerReaderException(string message) : base(message)
+        {
+        }
 
-        public TriggerReaderException(string message, Exception inner) : base(message, inner) { }
+        public TriggerReaderException(string message, Exception inner) : base(message, inner)
+        {
+        }
 
         protected TriggerReaderException(
           System.Runtime.Serialization.SerializationInfo info,
@@ -34,8 +38,7 @@ namespace Monkeyspeak
         private Page page;
 
         private readonly object syncObject = new object();
-       
-        
+
         /// <summary>
         /// A Reader that is used to get Variables, Strings, and Numbers from Triggers
         /// </summary>
@@ -104,12 +107,12 @@ namespace Monkeyspeak
                 {
                     for (int i = 0; i <= page.Scope.Count - 1; i++)
                     {
-                      // replaced string.replace with Regex because
-                      //  %ListName would replace %ListName2 leaving the 2 at the end
-                      //- Gerolkae
-                        string pattern = page.Scope[i].Name + @"\b" ;
+                        // replaced string.replace with Regex because
+                        //  %ListName would replace %ListName2 leaving the 2 at the end
+                        //- Gerolkae
+                        string pattern = page.Scope[i].Name + @"\b";
                         string replace = (page.Scope[i].Value != null) ? page.Scope[i].Value.ToString() : "null";
-                         str = Regex.Replace(str, pattern, replace);
+                        str = Regex.Replace(str, pattern, replace);
                     }
                 }
                 return str;
@@ -119,8 +122,6 @@ namespace Monkeyspeak
                 throw new TriggerReaderException("No value found.");
             }
         }
-
-        
 
         /// <summary>
         /// Peeks at the next value
@@ -161,15 +162,14 @@ namespace Monkeyspeak
         public Variable ReadVariable(bool addIfNotExist)
         {
             if (cloneTrigger.contents.Count == 0) throw new TriggerReaderException("Unexpected end of values.");
-            
+
             try
             {
                 Variable var;
                 string varRef = Convert.ToString(cloneTrigger.contents.Dequeue());
                 if (page.HasVariable(varRef, out var) == false)
-                   if (addIfNotExist)
+                    if (addIfNotExist)
                         var = page.SetVariable(varRef, "", false);
-
 
                 return var;
             }

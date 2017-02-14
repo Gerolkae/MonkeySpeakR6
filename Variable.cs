@@ -1,83 +1,85 @@
 ﻿using System;
 
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-[assembly: CLSCompliant(true)]
 namespace Monkeyspeak
 {
-	[Serializable]
-	public class VariableIsConstantException : Exception
-	{
-		public VariableIsConstantException() { }
+    [Serializable]
+    public class VariableIsConstantException : Exception
+    {
+        public VariableIsConstantException()
+        {
+        }
 
-		public VariableIsConstantException(string message) : base(message) { }
+        public VariableIsConstantException(string message) : base(message)
+        {
+        }
 
-		public VariableIsConstantException(string message, Exception inner) : base(message, inner) { }
+        public VariableIsConstantException(string message, Exception inner) : base(message, inner)
+        {
+        }
 
-		protected VariableIsConstantException(
-		  System.Runtime.Serialization.SerializationInfo info,
-		  System.Runtime.Serialization.StreamingContext context)
-			: base(info, context) { }
-	}
+        protected VariableIsConstantException(
+          System.Runtime.Serialization.SerializationInfo info,
+          System.Runtime.Serialization.StreamingContext context)
+            : base(info, context) { }
+    }
 
-	[Serializable]
+    [Serializable]
     [CLSCompliant(true)]
-	public class Variable
-	{
-		public static readonly Variable NoValue = new Variable("%none", "", false);
+    public class Variable
+    {
+        public static readonly Variable NoValue = new Variable("%none", "", false);
 
-		private bool isConstant;
+        private bool isConstant;
 
-		public bool IsConstant
-		{
-			get
-			{
-				return isConstant;
-			}
-			set
-			{
-				isConstant = value;
-			}
-		}
+        public bool IsConstant
+        {
+            get
+            {
+                return isConstant;
+            }
+            set
+            {
+                isConstant = value;
+            }
+        }
 
-        private object value ;
+        private object value;
 
-		 public  object Value
-		{
-			get
-			{
-				return value;
-			}
-			  set
-			{
-                 // removed Value = as it interfered with page.setVariable - Gerolkae
+        public object Value
+        {
+            get
+            {
+                return value;
+            }
+            set
+            {
+                // removed Value = as it interfered with page.setVariable - Gerolkae
                 if (CheckType(value) == false) throw new TypeNotSupportedException(value.GetType().Name +
     " is not a supported type. Expecting string or double.");
 
                 if (IsConstant == false)
                     this.value = value;
                 else throw new VariableIsConstantException("Attempt to assign a _value to constant \"" + Name + "\"");
-			}
-		}
+            }
+        }
 
-		private string name;
+        private string name;
 
-		public string Name
-		{
-			get
-			{
-				/*if(string.IsNullOrEmpty(name))
+        public string Name
+        {
+            get
+            {
+                /*if(string.IsNullOrEmpty(name))
 					this.name = "%none";*/
-				return name;
-			}
-			internal set
-			{
-				name = value;
-			}
-		}
+                return name;
+            }
+            internal set
+            {
+                name = value;
+            }
+        }
 
-        // Variable var = new variable(); 
+        // Variable var = new variable();
         // Preset reader.readvariable with default data
         // Needed for Conditions  checking Variables that haven't been defined yet.
         // -Gerolkae
@@ -87,6 +89,7 @@ namespace Monkeyspeak
             name = "%none";
             value = null;
         }
+
         internal Variable(string Name, object value)
         {
             isConstant = false;
@@ -95,75 +98,76 @@ namespace Monkeyspeak
         }
 
         internal Variable(string Name, object value, bool constant = false)
-		{
-			isConstant = constant;
-			name = Name;
-			this.value = value;
-		}
+        {
+            isConstant = constant;
+            name = Name;
+            this.value = value;
+        }
 
-		public void ForceAssignValue(object _value)
-		{
-			if (CheckType(_value) == false) throw new TypeNotSupportedException(_value.GetType().Name +
+        public void ForceAssignValue(object _value)
+        {
+            if (CheckType(_value) == false) throw new TypeNotSupportedException(_value.GetType().Name +
 " is not a supported type. Expecting string or double.");
-			value = _value;
-		}
+            value = _value;
+        }
 
-		private bool CheckType(object _value)
-		{
-			if (_value == null) return true;
+        private bool CheckType(object _value)
+        {
+            if (_value == null) return true;
 
-			return _value is string ||
-			       _value is double;
-		}
+            return _value is string ||
+                   _value is double;
+        }
 
-		/// <summary>
-		/// Returns a const identifier if the variable is constant followed by name,
-		/// <para>otherwise just the name is returned.</para>
-		/// </summary>
-		/// <returns></returns>
-		public override string ToString()
-		{
-			return ((IsConstant) ? "const " : "") + Name + " = " + ((Value == null) ? "null" : Value.ToString());
-		}
+        /// <summary>
+        /// Returns a const identifier if the variable is constant followed by name,
+        /// <para>otherwise just the name is returned.</para>
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return ((IsConstant) ? "const " : "") + Name + " = " + ((Value == null) ? "null" : Value.ToString());
+        }
 
-		/// <summary>
-		///
-		/// </summary>
-		/// <param name="asConstant">Clone as Constant</param>
-		/// <returns></returns>
-		public Variable Clone(bool asConstant = false)
-		{
-			return new Variable(Name, Value, asConstant);
-		}
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="asConstant">Clone as Constant</param>
+        /// <returns></returns>
+        public Variable Clone(bool asConstant = false)
+        {
+            return new Variable(Name, Value, asConstant);
+        }
 
-		public static bool operator ==(Variable varA, Variable varB)
-		{
-            if (varA == null  || varB == null)
+        public static bool operator ==(Variable varA, Variable varB)
+        {
+            if (varA == null || varB == null)
             {
-                if(varA != null)
+                if (varA != null)
                     return varA.value == null;
-                if(varB != null)
+                if (varB != null)
                     return varB.value == null;
             }
-			return varA.Value == varB.Value;
-		}
+            return varA.Value == varB.Value;
+        }
 
-		public static bool operator !=(Variable varA, Variable varB)
-		{
+        public static bool operator !=(Variable varA, Variable varB)
+        {
             return varA.Value != varB.Value;
         }
 
-		public override bool Equals(object obj)
-		{
+        public override bool Equals(object obj)
+        {
             return ((Variable)obj).Name.Equals(Name) && ((Variable)obj).Value.Equals(Value);
-		}
-		public override int GetHashCode()
-		{
-			if (value is int)
-			{ 
-				return (int)value ^ name.GetHashCode();
-			}
-			return name.GetHashCode();
-		}
-	}
+        }
+
+        public override int GetHashCode()
+        {
+            if (value is int)
+            {
+                return (int)value ^ name.GetHashCode();
+            }
+            return name.GetHashCode();
+        }
+    }
 }
